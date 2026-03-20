@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="線上圖片壓縮工具，大幅縮小檔案大小">
+  <title>圖片壓縮 — ToolWeb</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Skip link -->
+  <a href="#main" class="skip-link" id="skip-link">跳至主要內容</a>
+
+  <header class="header" role="banner">
+    <div class="header-inner container">
+      <a href="index.html" class="logo" aria-label="ToolWeb 首頁">
+        <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <rect x="2" y="2" width="28" height="28" rx="6" fill="var(--accent)"/>
+          <path d="M9 16h14M16 9v14" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        <span class="logo-text">ToolWeb</span>
+      </a>
+      <nav class="nav" role="navigation" aria-label="主要導覽">
+        <ul class="nav-list" role="list">
+          <li><a href="center-pad.html" class="nav-link" data-i18n="nav.centerPad">置中補白邊</a></li>
+          <li><a href="resize.html" class="nav-link" data-i18n="nav.resize">尺寸調整</a></li>
+          <li><a href="grid-cut.html" class="nav-link" data-i18n="nav.gridCut">九宮格切圖</a></li>
+          <li><a href="compress.html" class="nav-link active" data-i18n="nav.compress">圖片壓縮</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button class="btn-icon" id="theme-toggle" aria-label="切換深色模式" title="切換主題">
+          <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <select id="lang-select" class="lang-select" aria-label="選擇語言">
+          <option value="zh-TW">繁體中文</option>
+          <option value="en">English</option>
+        </select>
+        <button class="btn-icon mobile-menu-toggle" id="mobile-menu-toggle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobile-nav">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-nav-overlay" id="mobile-nav" role="dialog" aria-modal="true" aria-label="行動版導覽" hidden>
+      <nav aria-label="行動版導覽">
+        <ul class="mobile-nav-list" role="list">
+          <li><a href="center-pad.html" class="mobile-nav-link" data-i18n="nav.centerPad">置中補白邊</a></li>
+          <li><a href="resize.html" class="mobile-nav-link" data-i18n="nav.resize">尺寸調整</a></li>
+          <li><a href="grid-cut.html" class="mobile-nav-link" data-i18n="nav.gridCut">九宮格切圖</a></li>
+          <li><a href="compress.html" class="mobile-nav-link active" data-i18n="nav.compress">圖片壓縮</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="main" role="main">
+    <section aria-labelledby="cm-title">
+      <div class="container">
+        <div class="tool-header">
+          <a href="index.html" class="back-link" aria-label="返回首頁"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg><span data-i18n="back">返回</span></a>
+          <h1 id="cm-title" data-i18n="tools.compress.title">圖片壓縮</h1>
+        </div>
+        <div class="tool-layout">
+          <div class="tool-sidebar">
+            <div class="upload-zone" id="cm-upload" role="button" tabindex="0" aria-label="點擊或拖曳圖片上傳">
+              <input type="file" accept="image/*" class="upload-input" id="cm-file" aria-label="選擇圖片檔案" multiple>
+              <div class="upload-content"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg><p class="upload-text" data-i18n="upload.text">點擊或拖曳圖片至此</p><p class="upload-hint" data-i18n="upload.hint">支援 JPG、PNG、WebP</p></div>
+            </div>
+            <div class="settings-panel" id="cm-settings" hidden>
+              <h2 class="settings-title" data-i18n="settings">設定</h2>
+              <div class="setting-group"><label for="cm-quality" data-i18n="compress.quality">壓縮品質</label>
+                <div class="range-row"><input type="range" id="cm-quality" class="range-input" min="10" max="100" value="80" aria-label="壓縮品質百分比"><output for="cm-quality" id="cm-quality-val">80%</output></div>
+              </div>
+              <div class="setting-group"><label for="cm-format" data-i18n="compress.outputFormat">輸出格式</label>
+                <select id="cm-format" class="select-input"><option value="jpeg">JPEG</option><option value="webp">WebP</option><option value="png">PNG</option></select>
+              </div>
+              <div class="setting-group"><label for="cm-max-width" data-i18n="compress.maxWidth">最大寬度 (px，選填)</label>
+                <input type="number" id="cm-max-width" class="number-input full" min="0" max="10000" placeholder="不限制" aria-label="最大寬度像素">
+              </div>
+              <div class="btn-group"><button class="btn btn-primary" id="cm-process" data-i18n="btn.compress">壓縮圖片</button><button class="btn btn-secondary" id="cm-reset" data-i18n="btn.reset">重設</button></div>
+            </div>
+          </div>
+          <div class="preview-area" id="cm-preview-area" hidden>
+            <h2 class="sr-only" data-i18n="preview">預覽</h2>
+            <div class="compress-results" id="cm-results"></div>
+            <div class="btn-group"><button class="btn btn-primary" id="cm-download-all" data-i18n="btn.downloadAll">全部下載</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-links">
+        <a href="about.html" class="footer-link" data-i18n="nav.about">關於我們</a>
+        <span class="footer-sep" aria-hidden="true">|</span>
+        <a href="privacy.html" class="footer-link" data-i18n="nav.privacy">隱私政策</a>
+        <span class="footer-sep" aria-hidden="true">|</span>
+        <a href="terms.html" class="footer-link" data-i18n="nav.terms">使用條款</a>
+      </div>
+      <p data-i18n="footer.text">ToolWeb — 所有圖片皆於瀏覽器端處理，不會上傳至伺服器。</p>
+    </div>
+  </footer>
+  <div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true"></div>
+  <script src="shared.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const { t, showToast, loadImage, canvasToBlob, downloadBlob, showProcessing, hideProcessing, setupUploadZone, formatBytes } = ToolWeb;
+    let files=[], results=[];
+    setupUploadZone('cm-upload','cm-file', (fl)=>{
+      files=Array.from(fl).filter(f=>f.type.startsWith('image/'));
+      if(!files.length) return; document.getElementById('cm-settings').hidden=false;
+      showToast(t('toast.uploaded'),'success');
+    });
+    document.getElementById('cm-quality').addEventListener('input',e=>{document.getElementById('cm-quality-val').textContent=e.target.value+'%';});
+    document.getElementById('cm-process').addEventListener('click', async()=>{
+      if(!files.length){showToast(t('toast.noFile'),'error');return;} showProcessing(); results=[];
+      const quality=parseInt(document.getElementById('cm-quality').value)/100, fmt=document.getElementById('cm-format').value, maxW=parseInt(document.getElementById('cm-max-width').value)||0;
+      try{
+        for(const f of files){
+          const im=await loadImage(f); let w=im.naturalWidth,h=im.naturalHeight;
+          if(maxW>0&&w>maxW){h=Math.round(h*(maxW/w));w=maxW;}
+          const c=document.createElement('canvas');c.width=w;c.height=h;const ctx=c.getContext('2d');ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(im,0,0,w,h);
+          const blob=await canvasToBlob(c,fmt,quality);
+          results.push({canvas:c,blob,originalSize:f.size,compressedSize:blob.size,name:f.name});
+          URL.revokeObjectURL(im.src);
+        }
+        renderResults(fmt); document.getElementById('cm-preview-area').hidden=false;
+        showToast(t('toast.processed'),'success');
+      }catch(e){showToast(t('toast.error'),'error');} hideProcessing();
+    });
+    function renderResults(fmt){
+      const ct=document.getElementById('cm-results');ct.innerHTML='';const ext=fmt==='jpeg'?'jpg':fmt;
+      results.forEach((r,i)=>{
+        const saved=Math.max(0,Math.round((1-r.compressedSize/r.originalSize)*100));
+        const item=document.createElement('div');item.className='compress-item';
+        item.innerHTML=`<canvas class="compress-thumb" width="64" height="64" aria-hidden="true"></canvas>
+          <div class="compress-details"><div class="compress-name">${r.name}</div>
+          <div class="compress-stats"><span>${t('info.original',{s:formatBytes(r.originalSize)})}</span><span>${t('info.compressed',{s:formatBytes(r.compressedSize)})}</span><span class="compress-saved">${t('info.saved',{p:saved})}</span></div></div>
+          <div class="compress-actions"><button class="btn btn-primary">${t('btn.download')}</button></div>`;
+        const tc=item.querySelector('.compress-thumb').getContext('2d'),sc=Math.min(64/r.canvas.width,64/r.canvas.height);
+        tc.drawImage(r.canvas,(64-r.canvas.width*sc)/2,(64-r.canvas.height*sc)/2,r.canvas.width*sc,r.canvas.height*sc);
+        item.querySelector('.btn').addEventListener('click',()=>{downloadBlob(r.blob,r.name.replace(/\.[^.]+$/,'')+'_compressed.'+ext);showToast(t('toast.downloaded'),'success');});
+        ct.appendChild(item);
+      });
+    }
+    document.getElementById('cm-download-all').addEventListener('click', async()=>{
+      const fmt=document.getElementById('cm-format').value,ext=fmt==='jpeg'?'jpg':fmt;
+      for(const r of results){downloadBlob(r.blob,r.name.replace(/\.[^.]+$/,'')+'_compressed.'+ext);await new Promise(r=>setTimeout(r,100));}
+      showToast(t('toast.downloaded'),'success');
+    });
+    document.getElementById('cm-reset').addEventListener('click',()=>{
+      files=[];results=[];document.getElementById('cm-file').value='';document.getElementById('cm-settings').hidden=true;
+      document.getElementById('cm-preview-area').hidden=true;document.getElementById('cm-results').innerHTML='';
+      document.getElementById('cm-upload').classList.remove('has-file');
+      const n=document.querySelector('#cm-upload .upload-filename');if(n)n.remove();
+    });
+  });
+  </script>
+</body>
+</html>
